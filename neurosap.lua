@@ -37,12 +37,12 @@ function Sapnet.Neuron:newRandom(inputs)
     )
 end
 
-function Sapnet.Neuron:mutateRandom()
+function Sapnet.Neuron:mutateRandom(mutationrate)
     if math.random(1, 20) == 1 then
         self.operation = math.random(1, #Sapnet.Operations)
     end
-    self.weight = math.min(math.max(self.weight + (math.random() / 10) * math.random(-1, 1), -2), 2)
-    self.bias = math.min(math.max(self.bias + (math.random() / 10) * math.random(-1, 1), -5), 5)
+    self.weight = math.min(math.max(self.weight + (math.random() * (mutationrate / 10)) * math.random(-1, 1), -2), 2)
+    self.bias = math.min(math.max(self.bias + (math.random() * (mutationrate / 10)) * math.random(-1, 1), -5), 5)
 end
 
 function Sapnet.Neuron:updateNeuron(inputs)
@@ -95,11 +95,11 @@ function Sapnet.Brain:updateNeurons()
     end
 end
 
-function Sapnet.Brain:mutateRandom()
+function Sapnet.Brain:mutateRandom(mutationrate)
     for i = 1, #self.layers do
         for j = 1, #self.layers[i] do
             local curneur = self.layers[i][j]
-            curneur:mutateRandom()
+            curneur:mutateRandom(mutationrate)
         end
     end
 end
